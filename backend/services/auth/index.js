@@ -1,6 +1,8 @@
 import express from "express"
-import dotenv from "dotenv"
+import connectDB from "./config/db.js"
 import dns from "dns"
+import router from "./routes/auth.route.js"
+import dotenv from "dotenv"
 dotenv.config()
 
 
@@ -10,10 +12,14 @@ const port = process.env.PORT
 
 const app = express()
 
+app.use(express.json())
+app.use("/", router)
+
 app.use("/", (req, res) => {
     res.json({ message: "Hello from auth" })
 })
 
 app.listen(port, () => {
     console.log(`Auth started at port: ${port}`)
+    connectDB()
 })
