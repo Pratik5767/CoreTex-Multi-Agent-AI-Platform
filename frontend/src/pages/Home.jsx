@@ -1,10 +1,12 @@
-import React from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../utils/firebase.js'
 import api from "../utils/axios.js"
 import { FcGoogle } from "react-icons/fc"
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice.js'
+import Sidebar from '../components/Sidebar.jsx'
+import ChatArea from '../components/ChatArea.jsx'
+import Artifact from '../components/Artifact.jsx'
 
 
 const Home = () => {
@@ -30,6 +32,13 @@ const Home = () => {
 
     return (
         <div className='h-screen flex bg-[#0d0f14] text-white overflow-hidden'>
+
+            <Sidebar />
+
+            <ChatArea />
+
+            <Artifact />
+
             {
                 !userData &&
                 <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur'>
