@@ -45,9 +45,9 @@ export const updateConversationController = async (req, res) => {
 
 export const saveMessageController = async (req, res) => {
     try {
-        const { conversationId, role, content } = req.body
+        const { conversationId, role, content, images } = req.body
 
-        const message = await messageModel.create({ conversationId, content, role })
+        const message = await messageModel.create({ conversationId, content, role, images })
 
         return res.status(200).json(message)
     } catch (error) {
@@ -58,7 +58,7 @@ export const saveMessageController = async (req, res) => {
 
 export const getMessagesController = async (req, res) => {
     try {
-        const message = await messageModel.find({ conversationId: req.params.conversationId }).sort({ createdAt: -1 })
+        const message = await messageModel.find({ conversationId: req.params.conversationId })
 
         return res.status(200).json(message)
     } catch (error) {
