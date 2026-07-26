@@ -4,12 +4,12 @@ import { createConversationController, getConversationsController, getMessagesCo
 
 const router = express.Router()
 
-router.get("create-conversation", createConversationController)
-router.get("get-conversations", getConversationsController)
-router.post("update-conversation", updateConversationController)
+router.get("/create-conversation", createConversationController)
+router.get("/get-conversations", getConversationsController)
+router.post("/update-conversation", updateConversationController)
 
-router.post("save-message", saveMessageController)
-router.get("get-messages/:conversationId", getMessagesController)
+router.post("/save-message", saveMessageController)
+router.get("/get-messages/:conversationId", getMessagesController)
 
 
 export default router
