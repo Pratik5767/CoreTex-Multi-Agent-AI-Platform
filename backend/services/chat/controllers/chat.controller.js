@@ -45,9 +45,9 @@ export const updateConversationController = async (req, res) => {
 
 export const saveMessageController = async (req, res) => {
     try {
-        const { conversationId, role, content, images } = req.body
+        const { conversationId, role, content, images, artifacts } = req.body
 
-        const message = await messageModel.create({ conversationId, content, role, images })
+        const message = await messageModel.create({ conversationId, content, role, images, artifacts })
 
         return res.status(200).json(message)
     } catch (error) {
