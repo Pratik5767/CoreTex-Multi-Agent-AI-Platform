@@ -46,7 +46,20 @@ export const codingAgent = async (state) => {
             - Hover Effects
             - Beautiful spacing
             - Single page unless user asks otherwise.
+            
+            IMAGES:
+            =========================
 
+            Always use real Unsplash images.
+
+            Never use placeholder images.
+
+            Never use source.unsplash.com — it is shut down and all URLs from it are broken.
+
+            Only use images.unsplash.com/photo-{id} URLs with a real, existing photo ID.
+
+            Never invent or guess a photo ID.
+            
             Return ONLY valid JSON.
 
             Schema:
