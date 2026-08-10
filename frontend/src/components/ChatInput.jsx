@@ -44,7 +44,7 @@ const ChatInput = () => {
 
         const data = await sendMessage(payload)
         console.log(data)
-        dispatch(setArtifacts(data.artifacts || []))
+        dispatch(setArtifacts(data?.artifacts || []))
         dispatch(addMessage({ role: "assistant", content: data?.answer, images: data?.images }))
     }
 
