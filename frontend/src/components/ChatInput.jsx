@@ -75,9 +75,9 @@ const ChatInput = () => {
             label: "PPT"
         },
         {
-            id: "image",
+            id: "vision",
             icon: ImageIcon,
-            label: "Image"
+            label: "Vision"
         },
         {
             id: "search",
@@ -96,7 +96,13 @@ const ChatInput = () => {
                             const Icon = agent.icon
 
                             return (
-                                <div onClick={() => setSelectedAgent(agent.label)} className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium border transition-all cursor-pointer ${isActive ? "bg-linear-to-r from-indigo-500 to-violet-600 text-white border-transparent shadow-[0_1px_8px_rgba(99,102,241,.35)]" : "bg-white/3 text-slate-400 border-white/6 hover:border-white/7"}`}>
+                                <div
+                                    onClick={() => setSelectedAgent(agent.label)}
+                                    className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium border transition-all cursor-pointer 
+                                    ${isActive ?
+                                            "bg-linear-to-r from-indigo-500 to-violet-600 text-white border-transparent shadow-[0_1px_8px_rgba(99,102,241,.35)]" :
+                                            "bg-white/3 text-slate-400 border-white/6 hover:border-white/7"}`}
+                                >
                                     <Icon size={14} className={`${isActive ? "text-white" : "text-slate-500"}`} />
 
                                     {agent.label}
