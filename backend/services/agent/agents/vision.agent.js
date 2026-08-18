@@ -6,7 +6,9 @@ import { getFromCloudinary } from '../utils/getFromCloudinary.js'
 
 export const visionAgent = async (state) => {
     try {
+        // Get the LLM configured for image generation
         const llm = await getModel("image")
+        // Turns the user's raw request into a detailed image-generation prompt
         const prompt = `You are an elite AI image prompt engineer.
         
             Convert the user request into a highly detailed image generation prompt.
@@ -29,16 +31,23 @@ export const visionAgent = async (state) => {
 
             User Request: ${state.prompt}
         `
-        const res = await llm.invoke(prompt)
-        const response = res.content.trim()
+        // Call the LLM to generate the enhanced image prompt
+        const response = await llm.invoke(prompt)
+        // Extract and clean the generated prompt text from the response
+        const data = response.content.trim()
 
-        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(response)}`
+        // Build the image generation URL by encoding the prompt into the API endpoint
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(data)}`
+        // Fetch the generated image as binary data using the constructed URL
         const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' })
+        // Convert the fetched image response data into a Buffer for upload/storage
         const buffer = Buffer.from(imageResponse.data)
-        const filename = `image-${Date.now()}.png`
 
+        const filename = `image-${Date.now()}.png`
+        // uploading the image on cloudinary
         const { public_id, resource_type, format } = await uploadToCloudinary(filename, buffer, "image/png")
-        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60 * 60)
+        // fetching the image from cloudinary as a downloadable url
+        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60)
         return {
             ...state,
             aiResponse: [
