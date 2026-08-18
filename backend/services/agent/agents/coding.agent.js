@@ -144,7 +144,7 @@ export const codingAgent = async (state) => {
     } catch (error) {
         return {
             ...state,
-            aiResponse: `❌ Failed to generated Code - reason: ${e}`
+            aiResponse: `❌ Failed to generated Code - reason: ${error}`
         }
     }
 }

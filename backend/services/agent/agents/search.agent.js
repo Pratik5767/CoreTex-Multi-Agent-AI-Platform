@@ -17,11 +17,11 @@ export const searchAgent = async (state) => {
             images: (results.images || []).splice(0, 5)
         }
     } catch (error) {
-        console.log(error)
         return {
             ...state,
             searchResults: [],
-            images: []
+            images: [],
+            aiResponse: `❌ Failed to search - reason: ${error}`
         }
     }
 }

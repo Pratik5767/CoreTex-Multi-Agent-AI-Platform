@@ -60,7 +60,7 @@ export const chatAgent = async (state) => {
     } catch (error) {
         return {
             ...state,
-            aiResponse: `❌ Failed to generated Response - reason: ${e}`
+            aiResponse: `❌ Failed to generated Response - reason: ${error}`
         }
     }
 }
