@@ -47,7 +47,8 @@ export const visionAgent = async (state) => {
         // uploading the image on cloudinary
         const { public_id, resource_type, format } = await uploadToCloudinary(filename, buffer, "image/png")
         // fetching the image from cloudinary as a downloadable url
-        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60)
+        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60 * 60)
+        
         return {
             ...state,
             aiResponse: [

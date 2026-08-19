@@ -39,16 +39,14 @@ export const pdfAgent = async (state) => {
         const res = await llm.invoke(prompt)
         // Parse the LLM's response content from a JSON string into a JS object
         const data = JSON.parse(res.content)
-        console.log(data)
         // Generate the PDF file as a buffer from the provided data
         const pdfBuffer = await generatePdf(data)
-        console.log(pdfBuffer)
 
         const filename = `pdf-${Date.now()}.pdf`
         // uploading the pdf on cloudinary
         const { public_id, resource_type, format } = await uploadToCloudinary(filename, pdfBuffer, "application/pdf")
         // fetching the pdf from cloudinary as a downloadable url
-        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60)
+        const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60 * 60)
 
         return {
             ...state,
