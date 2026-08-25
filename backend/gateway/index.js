@@ -26,6 +26,7 @@ app.use(morgan("dev"))
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL))
 app.use("/api/chat", protect, proxyWithHeader(process.env.CHAT_SERVICE_URL))
 app.use("/api/agent", proxy(process.env.AGENT_SERVICE_URL))
+app.use("/api/billing", protect, proxyWithHeader(process.env.BILLING_SERVICE_URL))
 app.use("/", router)
 
 app.use("/", (req, res) => {
