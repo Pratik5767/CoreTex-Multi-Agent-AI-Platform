@@ -7,7 +7,6 @@ import redis from "../../../shared/redis/redis.js"
 export const login = async (req, res) => {
     try {
         const { token } = req.body
-
         const decoded = await getAuth(app).verifyIdToken(token)
 
         let user = await userModel.findOne({ firebaseUID: decoded.uid })
@@ -24,11 +23,17 @@ export const login = async (req, res) => {
         const sessionId = crypto.randomUUID()
 
         // redis integration done
+        await redis.set(`user-session-${user?._id}`, sessionId, "EX", 7 * 24 * 60 * 60)
+
         await redis.set(`session-${sessionId}`, JSON.stringify({
             userId: user._id,
             name: user.name,
             email: user.email,
-            avatar: user.avatar
+            avatar: user.avatar,
+            plan: user.plan,
+            credits: user.credits,
+            totalCredits: user.totalCredits,
+            planExpiresAt: user.planExpiresAt
         }), "EX", 7 * 24 * 60 * 60)
 
         res.cookie("session", sessionId, {
@@ -75,7 +80,8 @@ export const updateUserPayment = async (req, res) => {
         user.planExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         await user.save()
 
-        const sessionId = req.cookies?.session
+        const sessionId = await redis.get(`user-session-${user?._id}`)
+
         await redis.set(`session-${sessionId}`, JSON.stringify({
             userId: user._id,
             name: user.name,
