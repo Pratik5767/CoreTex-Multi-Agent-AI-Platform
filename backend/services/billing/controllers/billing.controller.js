@@ -1,6 +1,7 @@
 import { PLANS } from "../config/plans.js"
 import razorpay from "../config/razorpay.js"
 import paymentModel from "../models/payment.model.js"
+import crypto from 'crypto'
 import axios from 'axios'
 
 
@@ -14,7 +15,7 @@ export const createOrder = async (req, res) => {
             return res.status(404).json({ message: "Plan not found" })
         }
 
-        const order = razorpay.orders.create({
+        const order = await razorpay.orders.create({
             amount: selectedPlan.amount * 100,
             currency: "INR",
             receipt: `receipt-${Date.now()}`
