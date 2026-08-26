@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react'
 import { Coins, LogOut, MessageSquare, PanelLeftIcon, PanelRightIcon, PenSquare, Plus, User } from "lucide-react"
 import getConversations from '../features/getConversations.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { addConversation, setConversations, setSelectedConversation } from '../redux/conversationSlice.js'
-import createConversation from '../features/createConversation.js'
+import { setConversations, setSelectedConversation } from '../redux/conversationSlice.js'
 import { setUserData } from '../redux/userSlice.js'
 import logOut from '../features/logOut.js'
+import BillingDrawer from './BillingDrawer.jsx'
 
 
 const Sidebar = () => {
 
     const [collapsed, setCollapsed] = useState(false)
     const [imageError, setImageError] = useState(false)
+    const [showBilling, setShowBilling] = useState(false)
 
     const { conversations, selectedConversation } = useSelector(state => state.conversation)
     const { userData } = useSelector(state => state.user)
@@ -45,6 +46,7 @@ const Sidebar = () => {
 
                             return (
                                 <div
+                                    key={i}
                                     onClick={() => dispatch(setSelectedConversation(conv))}
                                     className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/18" : "bg-transparent border-transparent"}`}
                                 >
@@ -118,6 +120,7 @@ const Sidebar = () => {
 
                             return (
                                 <div
+                                    key={i}
                                     onClick={() => dispatch(setSelectedConversation(conv))}
                                     className={`flex items-center gap-2.5 cursor-pointer mb-0.5 px-3 py-2.5 rounded-[10px] border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/18" : "bg-transparent border-transparent"}`}
                                 >
@@ -168,7 +171,10 @@ const Sidebar = () => {
 
                                 {/* logout */}
                                 <div className='flex gap-1'>
-                                    <button className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/8 hover:text-slate-400 transition-all duration-150'>
+                                    <button
+                                        onClick={() => setShowBilling(true)}
+                                        className='flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/8 hover:text-slate-400 transition-all duration-150'
+                                    >
                                         <Coins size={16} />
                                     </button>
 
@@ -183,11 +189,14 @@ const Sidebar = () => {
                                     </button>
                                 </div>
                             </div>
-                        ) :
+                        ) : (
                             <button className='w-full flex items-center justify-center gap-2 text-sm font-medium text-slate-200 bg-white/5 border border-white/8 rounded-xl py-2.75 cursor-pointer hover:bg-white/8 transition-colors duration-150'>Login</button>
+                        )
                     }
                 </div>
             </div>
+
+            <BillingDrawer open={showBilling} onClose={() => setShowBilling(false)} />
         </div>
     )
 }
