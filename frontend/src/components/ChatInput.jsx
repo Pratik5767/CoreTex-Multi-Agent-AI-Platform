@@ -91,12 +91,13 @@ const ChatInput = () => {
             <div className='flex flex-col gap-2 bg-white/3 border border-white/[0.07] rounded-2xl px-4 pt-3.5 pb-3'>
                 <div className='flex w-[80%] gap-2 pr-2 flex-wrap'>
                     {
-                        agents.map((agent) => {
+                        agents.map((agent, i) => {
                             const isActive = selectedAgent == agent.label
                             const Icon = agent.icon
 
                             return (
                                 <div
+                                    key={agent._id || i}
                                     onClick={() => setSelectedAgent(agent.label)}
                                     className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium border transition-all cursor-pointer 
                                     ${isActive ?

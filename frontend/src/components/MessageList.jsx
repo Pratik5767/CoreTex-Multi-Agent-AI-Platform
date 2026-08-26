@@ -28,8 +28,8 @@ const MessageList = () => {
 
                         <div className='flex flex-wrap justify-center gap-2 mt-1'>
                             {
-                                ["Write a Netflix", "Explain Redis", "Build a dashboard"].map((s) => (
-                                    <button className='text-[12px] text-slate-400 bg-white/4 border border-white/[0.07] px-2 py-1.5 rounded-lg hover:bg-white/8 hover:text-slate-200 transition-colors duration-150 cursor-pointer'>{s}</button>
+                                ["Write a Netflix", "Explain Redis", "Build a dashboard"].map((s, i) => (
+                                    <button key={s._id || i} className='text-[12px] text-slate-400 bg-white/4 border border-white/[0.07] px-2 py-1.5 rounded-lg hover:bg-white/8 hover:text-slate-200 transition-colors duration-150 cursor-pointer'>{s}</button>
                                 ))
                             }
                         </div>
@@ -39,7 +39,11 @@ const MessageList = () => {
                         {
                             messages.map((msg, i) => (
                                 <div key={msg._id || i}>
-                                    <MessageBubble role={msg?.role} content={msg?.content} images={msg?.images || []} />
+                                    <MessageBubble
+                                        role={msg?.role}
+                                        content={msg?.content}
+                                        images={msg?.images || []}
+                                    />
                                 </div>
                             ))
                         }
