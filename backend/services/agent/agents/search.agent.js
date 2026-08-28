@@ -5,6 +5,9 @@ export const searchAgent = async (state) => {
     try {
         const results = await searchTool.invoke({ query: state.prompt })
 
+        // deducting the credits for search agent usage
+        await deductCredits(state.userId, "search")
+
         const trimmedResults = (results.results || []).map(r => ({
             title: r.title,
             url: r.url,
