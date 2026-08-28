@@ -42,10 +42,15 @@ export const pptAgent = async (state) => {
 
             Topic: ${state.prompt}
         `
+
         // Call the LLM to generate the response
         const response = await llm.invoke(prompt)
         // Parse the LLM's response content from a JSON string into a JS object
         const data = JSON.parse(response.content)
+        
+        // deducting the credits for ppt agent usage
+        await deductCredits(state.userId, "ppt")
+        
         // Generate the PPT from the provided data
         const ppt = await generatePPT(data)
         // writing the ppt into buffer type to send on cloud
