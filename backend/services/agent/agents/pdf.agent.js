@@ -35,10 +35,15 @@ export const pdfAgent = async (state) => {
 
             Topic: ${state.prompt}
         `
+        
         // Call the LLM to generate the enhanced pdf prompt
         const res = await llm.invoke(prompt)
         // Parse the LLM's response content from a JSON string into a JS object
         const data = JSON.parse(res.content)
+
+        // deducting the credits for pdf agent usage
+        await deductCredits(state.userId, "pdf")
+
         // Generate the PDF file as a buffer from the provided data
         const pdfBuffer = await generatePdf(data)
 
