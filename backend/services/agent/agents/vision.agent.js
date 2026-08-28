@@ -31,6 +31,7 @@ export const visionAgent = async (state) => {
 
             User Request: ${state.prompt}
         `
+
         // Call the LLM to generate the enhanced image prompt
         const response = await llm.invoke(prompt)
         // Extract and clean the generated prompt text from the response
@@ -40,6 +41,10 @@ export const visionAgent = async (state) => {
         const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(data)}`
         // Fetch the generated image as binary data using the constructed URL
         const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' })
+
+        // deducting the credits for vision agent usage
+        await deductCredits(state.userId, "vision")
+
         // Convert the fetched image response data into a Buffer for upload/storage
         const buffer = Buffer.from(imageResponse.data)
 
@@ -48,7 +53,7 @@ export const visionAgent = async (state) => {
         const { public_id, resource_type, format } = await uploadToCloudinary(filename, buffer, "image/png")
         // fetching the image from cloudinary as a downloadable url
         const downloadUrl = await getFromCloudinary(public_id, resource_type, format, 24 * 60 * 60)
-        
+
         return {
             ...state,
             aiResponse: [
