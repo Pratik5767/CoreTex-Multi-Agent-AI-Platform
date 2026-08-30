@@ -6,6 +6,8 @@ import { addMessage } from '../config/memory.js'
 export const agentController = async (req, res) => {
     try {
         const { prompt, conversationId, agent } = req.body
+        const file = req.file
+        const userId = req.headers["x-user-id"]
 
         await axios.post(`${process.env.CHAT_SERVICE_URL}/save-message`, {
             conversationId,
@@ -13,7 +15,7 @@ export const agentController = async (req, res) => {
             content: prompt
         })
 
-        const result = await graph.invoke({ prompt, conversationId, agent })
+        const result = await graph.invoke({ prompt, conversationId, agent, userId, file })
 
         await addMessage(conversationId, "user", prompt)
         await addMessage(conversationId, "assistant", result.aiResponse)
